@@ -25,29 +25,22 @@ public class DropperBlockMixin extends Block
     }
 
     @Override
-    @Unique(silent = true)
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos)
-    {
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return super.getComparatorOutput(state, world, pos);
     }
 
-    @Inject(method = { "getComparatorOutput"}, at = @At("HEAD"), cancellable = true, remap = false)
-    public void eac_getComparatorOutput(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<Integer> cir)
-    {
-        if (world instanceof ServerWorld
-            && CraftingDropper.hasTableNextToBlock((ServerWorld)world, pos)
-            && world.getBlockEntity(pos) instanceof DropperBlockEntity dropper)
+    @Inject(method = "getComparatorOutput", at = @At("HEAD"), cancellable = true)
+    public void eac_getComparatorOutput(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+        if (world instanceof ServerWorld serverWorld
+                && CraftingDropper.hasTableNextToBlock(serverWorld, pos)
+                && world.getBlockEntity(pos) instanceof DropperBlockEntity dropper)
         {
             int stackCount = 0;
-
-            for (int i = 0; i < dropper.size(); i++)
-            {
-                if (!dropper.getStack(i).isEmpty())
-                {
+            for (int i = 0; i < dropper.size(); i++) {
+                if (!dropper.getStack(i).isEmpty()) {
                     stackCount++;
                 }
             }
-
             cir.setReturnValue(stackCount);
         }
     }
@@ -59,7 +52,7 @@ public class DropperBlockMixin extends Block
         super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
     }
 
-    @Inject(method = { "neighborUpdate" }, at = @At("HEAD"), remap = false)
+    @Inject(method = { "neighborUpdate" }, at = @At("HEAD"))
     public void eac_neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify, CallbackInfo ci)
     {
         if (sourceBlock == Blocks.CRAFTING_TABLE || world.getBlockState(sourcePos).getBlock() == Blocks.CRAFTING_TABLE)
