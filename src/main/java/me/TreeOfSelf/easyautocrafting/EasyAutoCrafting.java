@@ -1,4 +1,4 @@
-package re.domi.easyautocrafting;
+package me.TreeOfSelf.easyautocrafting;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;

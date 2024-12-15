@@ -1,4 +1,4 @@
-package re.domi.easyautocrafting;
+package me.TreeOfSelf.easyautocrafting;
 
 import net.fabricmc.loader.api.FabricLoader;
 

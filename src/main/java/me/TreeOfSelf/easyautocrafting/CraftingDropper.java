@@ -1,5 +1,6 @@
-package re.domi.easyautocrafting;
+package me.TreeOfSelf.easyautocrafting;
 
+import me.TreeOfSelf.easyautocrafting.mixin.CraftingInventoryMixin;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
@@ -21,7 +22,6 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import re.domi.easyautocrafting.mixin.CraftingInventoryMixin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class CraftingDropper
 
             addToMergedItemStackList(craftingResults, recipe.craft(craftingInventory.createRecipeInput(), world.getRegistryManager()));
 
-            for (ItemStack remainingStack : recipe.getRemainder(craftingInventory.createRecipeInput()))
+            for (ItemStack remainingStack : recipe.getRecipeRemainders(craftingInventory.createRecipeInput()))
             {
                 addToMergedItemStackList(craftingResults, remainingStack);
             }

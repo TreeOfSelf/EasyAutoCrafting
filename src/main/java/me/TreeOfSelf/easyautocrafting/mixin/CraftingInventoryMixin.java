@@ -1,4 +1,4 @@
-package re.domi.easyautocrafting.mixin;
+package me.TreeOfSelf.easyautocrafting.mixin;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;

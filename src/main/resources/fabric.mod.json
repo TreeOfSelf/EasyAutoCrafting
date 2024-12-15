@@ -21,7 +21,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "re.domi.easyautocrafting.EasyAutoCrafting"
+      "me.TreeOfSelf.easyautocrafting.EasyAutoCrafting"
     ]
   },
   "mixins": [

@@ -1,4 +1,4 @@
-package re.domi.easyautocrafting.mixin;
+package me.TreeOfSelf.easyautocrafting.mixin;
 
 import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.block.entity.DropperBlockEntity;
@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import re.domi.easyautocrafting.CraftingDropper;
-import re.domi.easyautocrafting.DropperCache;
+import me.TreeOfSelf.easyautocrafting.CraftingDropper;
+import me.TreeOfSelf.easyautocrafting.DropperCache;
 
 import java.util.List;
 

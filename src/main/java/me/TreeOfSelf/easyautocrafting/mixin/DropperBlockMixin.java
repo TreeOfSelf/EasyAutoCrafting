@@ -1,23 +1,21 @@
-package re.domi.easyautocrafting.mixin;
+package me.TreeOfSelf.easyautocrafting.mixin;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DropperBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.DropperBlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.block.WireOrientation;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import re.domi.easyautocrafting.CraftingDropper;
+import me.TreeOfSelf.easyautocrafting.CraftingDropper;
 
-@SuppressWarnings("deprecation")
-@Mixin(value = DropperBlock.class, priority = 1500)
+@Mixin(value = DispenserBlock.class, priority = 1500)
 public class DropperBlockMixin extends Block
 {
     @Inject(method = "dispense", at = @At("HEAD"), cancellable = true)
@@ -33,7 +31,7 @@ public class DropperBlockMixin extends Block
         return super.getComparatorOutput(state, world, pos);
     }
 
-    @Inject(method = { "getComparatorOutput", "method_9572" }, at = @At("HEAD"), cancellable = true, remap = false)
+    @Inject(method = { "getComparatorOutput"}, at = @At("HEAD"), cancellable = true, remap = false)
     public void eac_getComparatorOutput(BlockState state, World world, BlockPos pos, CallbackInfoReturnable<Integer> cir)
     {
         if (world instanceof ServerWorld
@@ -56,12 +54,12 @@ public class DropperBlockMixin extends Block
 
     @Override
     @Unique(silent = true)
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify)
+    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, @Nullable WireOrientation wireOrientation, boolean notify)
     {
-        super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+        super.neighborUpdate(state, world, pos, sourceBlock, wireOrientation, notify);
     }
 
-    @Inject(method = { "neighborUpdate", "method_9612" }, at = @At("HEAD"), remap = false)
+    @Inject(method = { "neighborUpdate" }, at = @At("HEAD"), remap = false)
     public void eac_neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify, CallbackInfo ci)
     {
         if (sourceBlock == Blocks.CRAFTING_TABLE || world.getBlockState(sourcePos).getBlock() == Blocks.CRAFTING_TABLE)
