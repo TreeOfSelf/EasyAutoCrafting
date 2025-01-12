@@ -4,10 +4,7 @@ import me.TreeOfSelf.easyautocrafting.mixin.CraftingInventoryMixin;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.entity.DropperBlockEntity;
 import net.minecraft.block.entity.HopperBlockEntity;
@@ -31,18 +28,18 @@ import static net.minecraft.util.math.Direction.*;
 public class CraftingDropper
 {
     @SuppressWarnings("UnstableApiUsage")
-    public static void dispense(ServerWorld world, BlockState dispenserState, BlockPos dispenserPos, CallbackInfo ci)
+    public static void dispense(ServerWorld world, BlockState dropperState, BlockPos dropperPos, CallbackInfo ci)
     {
-        if (!hasTableNextToBlock(world, dispenserPos))
+        if (!hasTableNextToBlock(world, dropperPos))
         {
             return;
         }
 
         ci.cancel();
 
-        Direction facing = dispenserState.get(DispenserBlock.FACING);
+        Direction facing = dropperState.get(DropperBlock.FACING);
 
-        DropperBlockEntity dropper = (DropperBlockEntity)world.getBlockEntity(dispenserPos);
+        DropperBlockEntity dropper = (DropperBlockEntity) world.getBlockEntity(dropperPos);
         List<ItemStack> ingredients = new ArrayList<>(9);
         CraftingInventory craftingInventory = new CraftingInventory(new StubScreenHandler(), 3, 3);
 
@@ -54,8 +51,8 @@ public class CraftingDropper
         }
 
         Storage<ItemVariant> ingredientStorage = Config.enable3x3InventorySearching ?
-                InventoryUtil.getMerged3x3Storage(world, dispenserPos.offset(facing.getOpposite()), facing) :
-                ItemStorage.SIDED.find(world, dispenserPos.offset(facing.getOpposite()), facing);
+                InventoryUtil.getMerged3x3Storage(world, dropperPos.offset(facing.getOpposite()), facing) :
+                ItemStorage.SIDED.find(world, dropperPos.offset(facing.getOpposite()), facing);
 
         boolean patternMode = ingredientStorage != null;
 
@@ -92,8 +89,8 @@ public class CraftingDropper
                 addToMergedItemStackList(craftingResults, remainingStack);
             }
 
-            Inventory inventoryInFront = HopperBlockEntity.getInventoryAt(world, dispenserPos.offset(facing));
-            Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, dispenserPos.offset(facing), facing.getOpposite());
+            Inventory inventoryInFront = HopperBlockEntity.getInventoryAt(world, dropperPos.offset(facing));
+            Storage<ItemVariant> storage = ItemStorage.SIDED.find(world, dropperPos.offset(facing), facing.getOpposite());
             boolean hasCrafted = false;
 
             if (inventoryInFront != null)
@@ -115,11 +112,11 @@ public class CraftingDropper
             {
                 for (ItemStack craftingResult : craftingResults)
                 {
-                    ItemDispenserBehavior.spawnItem(world, craftingResult, 6, facing, DispenserBlock.getOutputLocation(new BlockPointer(world, dispenserPos, dispenserState, dropper)));
+                    ItemDispenserBehavior.spawnItem(world, craftingResult, 6, facing, DispenserBlock.getOutputLocation(new BlockPointer(world, dropperPos, dropperState, dropper)));
                 }
 
-                world.syncWorldEvent(1000, dispenserPos, 0);
-                world.syncWorldEvent(2000, dispenserPos, facing.getId());
+                world.syncWorldEvent(1000, dropperPos, 0);
+                world.syncWorldEvent(2000, dropperPos, facing.getId());
 
                 hasCrafted = true;
             }
