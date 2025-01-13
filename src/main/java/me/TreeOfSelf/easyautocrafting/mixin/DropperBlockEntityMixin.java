@@ -21,25 +21,6 @@ public class DropperBlockEntityMixin extends DispenserBlockEntity implements Dro
     @Unique
     private List<ItemStack> cachedIngredients;
 
-    @Override
-    public boolean isValid(int slot, ItemStack stack)
-    {
-        if (this.world instanceof ServerWorld && CraftingDropper.hasTableNextToBlock((ServerWorld)this.world, this.pos))
-        {
-            return super.isValid(slot, stack);
-        } else {
-            return false;
-        }
-    }
-
-    /*@Inject(method = "isValid", at = @At("HEAD"), cancellable = true)
-    public void eac_isValid(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir)
-    {
-        if (this.world instanceof ServerWorld && CraftingDropper.hasTableNextToBlock((ServerWorld)this.world, this.pos))
-        {
-            cir.setReturnValue(this.getStack(slot).isEmpty());
-        }
-    }*/
 
     @Override
     public CraftingRecipe eac_getRecipe()
